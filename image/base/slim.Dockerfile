@@ -24,7 +24,7 @@ ENV LANGUAGE en_US.UTF-8
 
 RUN curl https://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" | \
-        tee /etc/apt/sources.list.d/postgres.list
+    tee /etc/apt/sources.list.d/postgres.list
 RUN curl --silent --location https://deb.nodesource.com/setup_16.x | sudo bash -
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
@@ -33,16 +33,16 @@ RUN apt-get -y update
 # X11 libraries, mailutils
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends git rsyslog logrotate cron ssh-client less
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install autoconf build-essential ca-certificates rsync \
-                       libxslt-dev libcurl4-openssl-dev \
-                       libssl-dev libyaml-dev libtool \
-                       libpcre3 libpcre3-dev zlib1g zlib1g-dev \
-                       libxml2-dev gawk parallel \
-                       postgresql-${PG_MAJOR} postgresql-client-${PG_MAJOR} \
-                       postgresql-contrib-${PG_MAJOR} libpq-dev libreadline-dev \
-                       anacron wget \
-                       psmisc whois brotli libunwind-dev \
-                       libtcmalloc-minimal4 cmake \
-                       pngcrush pngquant
+    libxslt-dev libcurl4-openssl-dev \
+    libssl-dev libyaml-dev libtool \
+    libpcre3 libpcre3-dev zlib1g zlib1g-dev \
+    libxml2-dev gawk parallel \
+    postgresql-${PG_MAJOR} postgresql-client-${PG_MAJOR} \
+    postgresql-contrib-${PG_MAJOR} libpq-dev libreadline-dev \
+    anacron wget \
+    psmisc whois brotli libunwind-dev \
+    libtcmalloc-minimal4 cmake \
+    pngcrush pngquant
 RUN sed -i -e 's/start -q anacron/anacron -s/' /etc/cron.d/anacron
 RUN sed -i.bak 's/$ModLoad imklog/#$ModLoad imklog/' /etc/rsyslog.conf
 RUN sed -i.bak 's/module(load="imklog")/#module(load="imklog")/' /etc/rsyslog.conf
@@ -118,4 +118,4 @@ COPY sbin/ /sbin
 RUN useradd discourse -s /bin/bash -m -U &&\
     install -dm 0755 -o discourse -g discourse /var/www/discourse &&\
     sudo -u discourse git clone --depth 1 https://github.com/discourse/discourse.git /var/www/discourse &&\
-    sudo -u discourse git -C /var/www/discourse remote set-branches --add origin tests-passed
+    sudo -u discourse git -C /var/www/discourse remote set-branches --add origin stable
